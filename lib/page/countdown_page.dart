@@ -38,18 +38,49 @@ class _CountdownPageState extends State<CountdownPage> {
 
   Widget buildTime() {
     String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = twoDigits(duration.inHours);
     final minutes = twoDigits(duration.inMinutes.remainder(60));
     final seconds = twoDigits(duration.inSeconds.remainder(60));
 
-    return Text(
-      '$minutes:$seconds',
-      style: TextStyle(fontSize: 80),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildTimeCard(time: hours, header: 'HOURS'),
+        const SizedBox(width: 8),
+        buildTimeCard(time: minutes, header: 'MINUTES'),
+        const SizedBox(width: 8),
+        buildTimeCard(time: seconds, header: 'SECONDS')
+      ],
     );
   }
+
+  Widget buildTimeCard({required String time, required String header}) =>
+      Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(20)),
+            child: Text(time,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                  fontSize: 72,
+                )),
+          ),
+          SizedBox(height: 24),
+          Text(
+            header,
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          )
+        ],
+      );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color.fromARGB(255, 73, 58, 58),
       body: Center(
         child: buildTime(),
       ),
